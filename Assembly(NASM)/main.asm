@@ -1,23 +1,14 @@
-; This example was used from https://gist.github.com/mcandre/b3664ffbeb4f5764b36a397fafb04f1c
-
 section .data
-    hello db 'Hello, World!', 0  
-    helloLen equ $ - hello        
+    msg db 'Hello, World!', 10, 0
 
 section .text
     global main
-    extern ExitProcess, WriteConsoleA, GetStdHandle
+    extern printf
+    extern exit
 
 main:
-    sub rsp, 28h               
-    mov rcx, -11                
-    call GetStdHandle
-
-    mov r9, 0                
-    mov r8, helloLen          
-    mov rdx, hello            
-    mov rcx, rax               
-    call WriteConsoleA        
-
-    mov rcx, 0                 
-    call ExitProcess  
+    sub rsp, 40
+    lea rcx, [rel msg]
+    call printf
+    xor ecx, ecx
+    call exit
